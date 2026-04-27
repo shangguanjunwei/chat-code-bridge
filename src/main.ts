@@ -1,6 +1,10 @@
+/*
+ * 应用入口：演示子进程版本查询与串行异步任务终端 UI。
+ */
 import { runSequentialAsyncTasks } from '@/utils/runSequentialAsyncTasks';
 import { startSpawnCommand } from '@/utils/spawnCommand';
 
+/* 等待 node -v 子进程成功结束后再跑示例任务队列。 */
 async function main(): Promise<void> {
   await new Promise<void>((resolve, reject) => {
     const childProcess = startSpawnCommand('node', ['-v']);
