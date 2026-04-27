@@ -1,6 +1,21 @@
 import { runSequentialAsyncTasks } from '@/utils/runSequentialAsyncTasks';
+import { startSpawnCommand } from '@/utils/spawnCommand';
 
 async function main(): Promise<void> {
+  await new Promise<void>((resolve, reject) => {
+    const childProcess = startSpawnCommand('node', ['-v']);
+
+    childProcess.once('error', reject);
+    childProcess.once('close', (code) => {
+      if (code === 0) {
+        resolve();
+        return;
+      }
+
+      reject(new Error(`子进程退出码异常: ${code ?? 'unknown'}`));
+    });
+  });
+
   await runSequentialAsyncTasks([
     {
       prefix: '开始任务 1',
