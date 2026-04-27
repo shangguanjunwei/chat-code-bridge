@@ -1,4 +1,4 @@
-import { runSequentialAsyncTasks } from './utils/runSequentialAsyncTasks';
+import { runSequentialAsyncTasks } from '@/utils/runSequentialAsyncTasks';
 
 async function main(): Promise<void> {
   await runSequentialAsyncTasks([
