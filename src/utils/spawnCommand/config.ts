@@ -1,7 +1,7 @@
 /*
  * 常用 CLI 命令在 Windows / macOS / Linux 下的可执行名映射表。
  */
-const commandMappings: Record<string, CommandPlatformMapping> = {
+const commandMappings: Record<string, SpawnCommand.CommandPlatformMapping> = {
   /* key 约定为 macOS 下的命令名 */
   npm: { win32: 'npm.cmd', darwin: 'npm', linux: 'npm' },
   npx: { win32: 'npx.cmd', darwin: 'npx', linux: 'npx' },
@@ -25,7 +25,7 @@ export function resolveCommandByPlatform(
   }
 
   if (platform === 'win32' || platform === 'darwin' || platform === 'linux') {
-    return mapping[platform as SupportedCommandPlatform];
+    return mapping[platform as SpawnCommand.SupportedCommandPlatform];
   }
 
   return macCommand;

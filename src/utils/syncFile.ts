@@ -4,10 +4,6 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 
-import type { FileWriteMode } from '@/types/sync-file';
-
-export type { FileWriteMode } from '@/types/sync-file';
-
 /*
  * 同步写入文本文件；父目录或文件不存在时会创建。
  * 编码固定为 UTF-8。
@@ -15,7 +11,7 @@ export type { FileWriteMode } from '@/types/sync-file';
 export function writeFileContentSync(
   filePath: string,
   content: string,
-  mode: FileWriteMode
+  mode: SyncFile.FileWriteMode
 ): void {
   mkdirSync(dirname(filePath), { recursive: true });
   const flag = mode === 'append' ? 'a' : 'w';

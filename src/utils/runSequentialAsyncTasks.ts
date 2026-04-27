@@ -28,7 +28,7 @@ const getErrorMessage = (error: unknown): string => {
  * 按数组顺序依次 await 每个任务的 asyncFn，并刷新终端展示。
  */
 export async function runSequentialAsyncTasks(
-  tasks: SequentialTaskItem[]
+  tasks: SequentialTask.SequentialTaskItem[]
 ): Promise<void> {
   /* 开始执行前先输出总任务数。 */
   write(`${TerminalColor.White}共 ${tasks.length} 个任务待执行${TerminalColor.Reset}\n\n`);

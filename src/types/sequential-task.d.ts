@@ -1,9 +1,9 @@
 /*
- * 串行异步任务列表中每一项的结构说明（全局类型）。
+ * 终端串行异步任务队列相关类型。
  */
-declare global {
+declare namespace SequentialTask {
   /*
-   * 单个串行任务：展示用前后缀 + 实际执行的异步函数。
+   * 队列中单项：用于展示的文案前缀/后缀，以及实际执行的异步函数。
    */
   interface SequentialTaskItem {
     prefix: string;
@@ -11,5 +11,3 @@ declare global {
     asyncFn: () => Promise<unknown>;
   }
 }
-
-export {};

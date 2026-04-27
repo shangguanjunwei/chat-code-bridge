@@ -1,4 +1,9 @@
 /*
- * 文件同步写入时的模式：追加在末尾，或覆盖原有内容。
+ * 同步读写磁盘文件相关类型。
  */
-export type FileWriteMode = 'append' | 'overwrite';
+declare namespace SyncFile {
+  /*
+   * 写入模式：在文件末尾追加，或覆盖原有内容。
+   */
+  type FileWriteMode = 'append' | 'overwrite';
+}
