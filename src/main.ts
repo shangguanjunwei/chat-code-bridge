@@ -16,6 +16,13 @@ async function main(): Promise<void> {
         await new Promise((resolve) => setTimeout(resolve, 500));
       },
     },
+    {
+      prefix: '开始任务 3',
+      suffix: '任务 3 完成',
+      asyncFn: async () => {
+        await new Promise((_, reject) => setTimeout(reject, 3000));
+      },
+    },
   ]);
 }
 
