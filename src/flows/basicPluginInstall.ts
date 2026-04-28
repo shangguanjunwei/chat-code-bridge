@@ -4,7 +4,7 @@
 import { runSequentialAsyncTasks } from '@/utils/runSequentialAsyncTasks';
 import { startSpawnCommand } from '@/utils/spawnCommand';
 
-const envCheck = {
+const envCheck: Flows.EnvCheckMap = {
   node: {
     enabled: false,
     version: undefined,
