@@ -14,9 +14,6 @@ const write = (text: string): void => {
   console.log(text.replace(/\r/g, ''));
 };
 
-/* 控制台转圈动画帧，表示任务执行中。 */
-const spinnerFrames = ['|', '/', '-', '\\'];
-
 /* 将未知异常统一为可读字符串，避免输出 [object Object]。 */
 const getErrorMessage = (error: unknown): string => {
   if (error == null) return '未知错误';
@@ -39,31 +36,20 @@ export async function runSequentialAsyncTasks(
     const isLastTask = taskNo === tasks.length;
     const treePrefix = isLastTask ? '└─' : '├─';
     const taskLabel = `[${taskNo}/${tasks.length}]`;
-    let frameIndex = 0;
-
-    /* 用回车符刷新同一行，实现单行转圈动画。 */
-    const renderRunning = (): void => {
-      const frame = spinnerFrames[frameIndex % spinnerFrames.length];
-      frameIndex += 1;
-      write(
-        `\r${TerminalColor.Gray}${treePrefix}${TerminalColor.Reset} ${TerminalColor.Gray}${frame} ${taskLabel} ${task.prefix}${TerminalColor.Reset}`
-      );
-    };
-
-    renderRunning();
-    const spinnerTimer = setInterval(renderRunning, 80);
+    /* 固定输出“开始执行”行，避免交互式命令覆盖首行状态。 */
+    write(
+      `${TerminalColor.Gray}${treePrefix}${TerminalColor.Reset} ${TerminalColor.Gray}… ${taskLabel} ${task.prefix}${TerminalColor.Reset}\n`
+    );
 
     try {
       /* 串行：须等当前任务结束再进入下一项。 */
       await task.asyncFn();
-      clearInterval(spinnerTimer);
       write(
-        `\r${TerminalColor.Gray}${treePrefix}${TerminalColor.Reset} ${TerminalColor.Green}●${TerminalColor.Reset} ${TerminalColor.White}${taskLabel} ${task.suffix}${TerminalColor.Reset}\n`
+        `${TerminalColor.Gray}${treePrefix}${TerminalColor.Reset} ${TerminalColor.Green}●${TerminalColor.Reset} ${TerminalColor.White}${taskLabel} ${task.suffix}${TerminalColor.Reset}\n`
       );
     } catch (error) {
-      clearInterval(spinnerTimer);
       write(
-        `\r${TerminalColor.Gray}${treePrefix}${TerminalColor.Reset} ${TerminalColor.Red}● ${taskLabel} ${task.suffix}${TerminalColor.Reset}\n`
+        `${TerminalColor.Gray}${treePrefix}${TerminalColor.Reset} ${TerminalColor.Red}● ${taskLabel} ${task.suffix}${TerminalColor.Reset}\n`
       );
       write(
         `${TerminalColor.Red}第 ${taskNo}/${tasks.length} 个任务执行失败：${TerminalColor.White}${getErrorMessage(error)}${TerminalColor.Reset}\n`
