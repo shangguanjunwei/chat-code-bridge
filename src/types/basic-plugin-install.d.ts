@@ -14,6 +14,11 @@ declare namespace Flows {
       suffix: string;
       asyncFn: () => Promise<unknown>;
     };
+    asyncInstallConfig: {
+      prefix: string;
+      suffix: string;
+      asyncFn: () => Promise<unknown>;
+    };
   }
 
   type EnvCheckMap = Record<EnvToolKey, EnvCheckItem>;
