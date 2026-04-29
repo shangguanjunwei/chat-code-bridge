@@ -1,7 +1,7 @@
 declare namespace Flows {
   type EnvToolKey = 'node' | '@larksuite/cli' | 'cursor-cli' | 'claude-cli' | 'codex-cli';
 
-  type EnvToolGroup = 'BasicEnv' | 'ToolEnv' | 'RecommendedEnv' | 'OtherEnv';
+  type EnvToolGroup = 'BasicEnv' | 'ToolEnv' | 'RecommendedEnv';
 
   interface EnvCheckItem {
     enabled: boolean;
