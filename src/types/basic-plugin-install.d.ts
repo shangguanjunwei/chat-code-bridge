@@ -9,6 +9,11 @@ declare namespace Flows {
     version?: string;
     errorMsg: string;
     installDocPath: string;
+    asyncEnvCheckConfig: {
+      prefix: string;
+      suffix: string;
+      asyncFn: () => Promise<unknown>;
+    };
   }
 
   type EnvCheckMap = Record<EnvToolKey, EnvCheckItem>;

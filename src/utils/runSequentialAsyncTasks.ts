@@ -28,7 +28,7 @@ export async function runSequentialAsyncTasks(
   tasks: SequentialTask.SequentialTaskItem[]
 ): Promise<void> {
   /* 开始执行任务。 */
-  write(`${TerminalColor.White}开始执行${TerminalColor.Reset}\n`);
+  write(`${TerminalColor.White}开始执行...\n\n`);
 
   for (let index = 0; index < tasks.length; index += 1) {
     const task = tasks[index];
@@ -65,7 +65,7 @@ export async function runSequentialAsyncTasks(
     }
   }
 
-  write(`\n${TerminalColor.Green}安装完成${TerminalColor.Reset}\n\n`);
+  // write(`\n${TerminalColor.Green}安装完成${TerminalColor.Reset}\n\n`);
   // if (typeof process !== 'undefined') {
   //   process.exit?.(0);
   // }
