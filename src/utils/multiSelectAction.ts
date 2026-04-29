@@ -1,0 +1,147 @@
+import readlinePromises from 'node:readline/promises';
+import { stdin, stdout } from 'node:process';
+import readline from 'node:readline';
+
+/** 未选中：白色小方块；选中：绿色小方块（Unicode BLACK SMALL SQUARE + ANSI 前景色） */
+const squareUnchecked = '\x1b[97m\u25AA\x1b[0m';
+const squareChecked = '\x1b[32m\u25AA\x1b[0m';
+
+/** 从泛型项上读取展示用标签。 */
+const getLabel = <T>(item: T, labelKey: string) =>
+  String(item[labelKey as keyof T] ?? '');
+
+/** 非 TTY：通过序号列表（逗号/空格分隔）多选。 */
+const multiSelectByNumbers = async <T>(
+  options: T[],
+  title: string,
+  labelKey: string,
+): Promise<T[]> => {
+  const rl = readlinePromises.createInterface({ input: stdin, output: stdout });
+  try {
+    stdout.write(`${title}，请输入序号（多选用英文逗号或空格分隔，如 1,3 或 1 3）\n`);
+    options.forEach((item, i) => {
+      stdout.write(`  ${i + 1}. ${getLabel(item, labelKey)}\n`);
+    });
+    const raw = (await rl.question('请输入: ')).trim();
+    if (!raw) {
+      return [];
+    }
+    const parts = raw.split(/[,\s]+/).filter(Boolean);
+    const indices = new Set<number>();
+    for (const p of parts) {
+      const idx = Number.parseInt(p.trim(), 10) - 1;
+      if (!Number.isInteger(idx) || idx < 0 || idx >= options.length) {
+        throw new Error(`无效选项：${raw}`);
+      }
+      indices.add(idx);
+    }
+    return [...indices]
+      .sort((a, b) => a - b)
+      .map((i) => options[i] as T);
+  } finally {
+    rl.close();
+  }
+};
+
+/** TTY：↑↓ 移动焦点、Space 切换选中、Enter 确认的多选交互。 */
+const multiSelectByInteractive = <T>(
+  options: T[],
+  title: string,
+  labelKey: string,
+): Promise<T[]> =>
+  new Promise((resolve, reject) => {
+    let index = 0;
+    const selected = new Set<number>();
+    const lineCount = 1 + options.length;
+    const draw = () => {
+      const lines = [
+        `${title}（↑↓ 移动，Space 切换选中，Enter 确认，Ctrl+C/ESC 退出）\n`,
+        ...options.map((item, i) => {
+          const label = String(getLabel(item, labelKey) ?? '');
+          const checked = selected.has(i);
+          const box = checked ? squareChecked : squareUnchecked;
+          const isFocused = i === index;
+          const labelCell = isFocused ? `\x1b[7m${label}\x1b[0m` : label;
+          return `  ${box} ${labelCell}\n`;
+        }),
+      ];
+      stdout.write(lines.join(''));
+    };
+    const redraw = () => {
+      stdout.write(`\x1b[${lineCount}A`);
+      draw();
+    };
+    const cleanup = () => {
+      stdin.removeListener('keypress', onKeypress);
+      stdin.setRawMode(false);
+      stdin.pause();
+    };
+    const onKeypress = (_: string, key: readline.Key) => {
+      if (!key) return;
+      if (key.ctrl && key.name === 'c') {
+        cleanup();
+        stdout.write('\n');
+        reject(new Error('用户取消'));
+        return;
+      }
+      if (key.name === 'escape') {
+        cleanup();
+        stdout.write('\n');
+        reject(new Error('用户取消'));
+        return;
+      }
+      if (key.name === 'up') {
+        index = (index - 1 + options.length) % options.length;
+        redraw();
+        return;
+      }
+      if (key.name === 'down') {
+        index = (index + 1) % options.length;
+        redraw();
+        return;
+      }
+      if (key.sequence === ' ' || key.name === 'space') {
+        if (selected.has(index)) {
+          selected.delete(index);
+        } else {
+          selected.add(index);
+        }
+        redraw();
+        return;
+      }
+      if (key.name === 'return' || key.name === 'enter') {
+        const result = [...selected]
+          .sort((a, b) => a - b)
+          .map((i) => options[i] as T);
+        cleanup();
+        stdout.write('\n');
+        resolve(result);
+      }
+    };
+    readline.emitKeypressEvents(stdin);
+    stdin.setRawMode(true);
+    stdin.resume();
+    draw();
+    stdin.on('keypress', onKeypress);
+  });
+
+/**
+ * 在交互式终端或纯管道环境中从列表里多选若干项。
+ *
+ * @param options 候选项数组
+ * @param labelKey 用于展示的字段名，默认 `label`
+ */
+const multiSelectAction = async <T>(
+  options: T[],
+  title: string,
+  labelKey: string = 'label',
+): Promise<T[]> => {
+  if (!Array.isArray(options) || options.length === 0) {
+    throw new Error('选项不能为空');
+  }
+  return stdin.isTTY
+    ? await multiSelectByInteractive<T>(options, title, labelKey)
+    : await multiSelectByNumbers<T>(options, title, labelKey);
+};
+
+export default multiSelectAction;
