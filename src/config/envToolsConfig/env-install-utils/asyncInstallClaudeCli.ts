@@ -1,6 +1,6 @@
 const asyncInstallClaudeCli = {
-  prefix: '安装Claude CLI',
-  suffix: '安装完成',
+  prefix: '安装 Claude CLI',
+  suffix: 'Claude CLI 安装完成',
   asyncFn: async () => {
     console.log('安装Claude CLI');
   }
