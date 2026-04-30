@@ -1,7 +1,7 @@
 import { startSpawnCommand } from '@/utils/spawnCommand';
 import envToolsConfig from '@/config/envToolsConfig';
 
-const asyncCheckClaudeCli = {
+const asyncCheckClaudeCli: SequentialTask.SequentialTaskItem = {
   prefix: `检查 claude-cli 是否安装`,
   suffix: `claude-cli 是否安装检查完成`,
   asyncFn: async () => {

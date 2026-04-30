@@ -1,4 +1,4 @@
-const asyncInstallCodexCli = {
+const asyncInstallCodexCli: SequentialTask.SequentialTaskItem = {
   prefix: '安装Codex CLI',
   suffix: '安装完成',
   asyncFn: async () => {

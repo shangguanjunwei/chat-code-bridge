@@ -1,7 +1,7 @@
 import { startSpawnCommand } from '@/utils/spawnCommand';
 import envToolsConfig from '@/config/envToolsConfig';
 
-const asyncCheckLarkCli = {
+const asyncCheckLarkCli: SequentialTask.SequentialTaskItem = {
   prefix: `检查 @larksuite/cli 是否安装`,
   suffix: `@larksuite/cli 是否安装检查完成`,
   asyncFn: async () => {

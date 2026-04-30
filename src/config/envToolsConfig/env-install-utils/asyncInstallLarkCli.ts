@@ -1,4 +1,4 @@
-const asyncInstallLarkCli = {
+const asyncInstallLarkCli: SequentialTask.SequentialTaskItem = {
   prefix: '安装Lark CLI',
   suffix: '安装完成',
   asyncFn: async () => {

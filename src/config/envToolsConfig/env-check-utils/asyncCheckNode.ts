@@ -1,7 +1,7 @@
 import { startSpawnCommand } from '@/utils/spawnCommand';
 import envToolsConfig from '@/config/envToolsConfig';
 
-const asyncCheckNode = {
+const asyncCheckNode: SequentialTask.SequentialTaskItem = {
   prefix: `检查 node 环境`,
   suffix: `node 环境检查完成`,
   asyncFn: async () => {

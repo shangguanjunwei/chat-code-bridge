@@ -1,4 +1,4 @@
-const asyncInstallNode = {
+const asyncInstallNode: SequentialTask.SequentialTaskItem = {
   prefix: '安装Node.js',
   suffix: '安装完成',
   asyncFn: async () => {

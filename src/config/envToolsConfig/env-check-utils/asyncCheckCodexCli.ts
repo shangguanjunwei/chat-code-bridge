@@ -1,7 +1,7 @@
 import { startSpawnCommand } from "@/utils/spawnCommand";
 import envToolsConfig from "@/config/envToolsConfig";
 
-const asyncCheckCodexCli = {
+const asyncCheckCodexCli: SequentialTask.SequentialTaskItem = {
   prefix: `检查 codex-cli 是否安装`,
   suffix: `codex-cli 是否安装检查完成`,
   asyncFn: async () => {

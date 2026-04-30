@@ -1,10 +1,10 @@
 import { startSpawnCommand } from '@/utils/spawnCommand';
 import envToolsConfig from '@/config/envToolsConfig';
-const asyncCheckCursorCli = {
+const asyncCheckCursorCli: SequentialTask.SequentialTaskItem = {
   prefix: `检查 cursor-cli 是否安装`,
   suffix: `cursor-cli 是否安装检查完成`,
   asyncFn: async () => {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve) => {
       const childProcess = startSpawnCommand('agent', ['--version'], { stdio: 'pipe' });
       childProcess.stdout?.on('data', (data) => {
         const version = data.toString().trim();
