@@ -23,7 +23,7 @@ async function main(): Promise<void> {
 
   const uninstalledTools: { label: string; value: Flows.EnvCheckItem }[] = [];
   for (const [key, value] of Object.entries(envCheckResult)) {
-    if (value.enabled) {
+    if (!value.enabled) {
       uninstalledTools.push({
         label: key,
         value,
