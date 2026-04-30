@@ -23,7 +23,7 @@ async function main(): Promise<void> {
 
   const uninstalledTools: { label: string; value: Flows.EnvCheckItem }[] = [];
   for (const [key, value] of Object.entries(envCheckResult)) {
-    if (!value.enabled) {
+    if (value.enabled) {
       uninstalledTools.push({
         label: key,
         value,
@@ -75,8 +75,8 @@ async function main(): Promise<void> {
   const recommendedEnvUninstalledTools = toolsClassByGroup.RecommendedEnv.filter(item => uninstalledTools.find(tool => tool.label === item.label));
   if (recommendedEnvUninstalledTools.length > 0) {
     console.log('\n');
-    const result3 = await askYesNoBySpawn(`${recommendedEnvUninstalledTools.map(item => item.label).join(', ')}为推荐安装的工具，您是否需要安装？`);
-    if (result3) {
+    const result5 = await askYesNoBySpawn(`${recommendedEnvUninstalledTools.map(item => item.label).join(', ')}为推荐安装的工具，您是否需要安装？`);
+    if (result5) {
       await runSequentialAsyncTasks(recommendedEnvUninstalledTools.map(item => item.value.asyncInstallConfig));
     }
   }
