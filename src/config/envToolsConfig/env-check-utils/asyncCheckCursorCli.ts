@@ -17,13 +17,20 @@ const asyncCheckCursorCli = {
                     envToolsConfig['cursor-cli'].errorMsg = `cursor-cli 是否安装检查失败，版本号: ${version}`;
                 }
             });
-            childProcess.once('error', reject);
+            childProcess.once('error', error => {
+                envToolsConfig['cursor-cli'].enabled = false;
+                envToolsConfig['cursor-cli'].version = undefined;
+                envToolsConfig['cursor-cli'].errorMsg = `cursor-cli 是否安装检查失败，错误: ${error.message}`;
+                resolve();
+            });
             childProcess.once('close', (code) => {
-                if (code === 0) {
+                if (code !== 0) {
                     resolve();
-                    return;
+                    envToolsConfig['cursor-cli'].enabled = false;
+                    envToolsConfig['cursor-cli'].version = undefined;
+                    envToolsConfig['cursor-cli'].errorMsg = `cursor-cli 是否安装检查失败，退出码: ${code ?? 'unknown'}`;
                 }
-                reject(new Error(`cursor-cli 是否安装检查失败，退出码: ${code ?? 'unknown'}`));
+                resolve();
             });
         });
     },

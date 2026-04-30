@@ -5,7 +5,7 @@ const asyncCheckCodexCli = {
     prefix: `检查 codex-cli 是否安装`,
     suffix: `codex-cli 是否安装检查完成`,
     asyncFn: async () => {
-        return new Promise<void>((resolve, reject) => {
+        return new Promise<void>((resolve) => {
             const childProcess = startSpawnCommand('codex', ['--version'], { stdio: 'pipe' });
             childProcess.stdout?.on('data', (data) => {
                 const version = data.toString().trim();
@@ -18,13 +18,19 @@ const asyncCheckCodexCli = {
                     envToolsConfig['codex-cli'].errorMsg = `codex-cli 是否安装检查失败，版本号: ${version}`;
                 }
             });
-            childProcess.once('error', reject);
+            childProcess.once('error', (error) => {
+                envToolsConfig['codex-cli'].enabled = false;
+                envToolsConfig['codex-cli'].version = undefined;
+                envToolsConfig['codex-cli'].errorMsg = `codex-cli 是否安装检查失败，错误: ${error.message}`;
+                resolve();
+            });
             childProcess.once('close', (code) => {
-                if (code === 0) {
-                    resolve();
-                    return;
+                if (code !== 0) {
+                    envToolsConfig['codex-cli'].enabled = false;
+                    envToolsConfig['codex-cli'].version = undefined;
+                    envToolsConfig['codex-cli'].errorMsg = `codex-cli 是否安装检查失败，退出码: ${code ?? 'unknown'}`;
                 }
-                reject(new Error(`codex-cli 是否安装检查失败，退出码: ${code ?? 'unknown'}`));
+                resolve();
             });
         });
     },
