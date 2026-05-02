@@ -10,25 +10,25 @@ const asyncCheckNode: SequentialTask.SequentialTaskItem = {
       childProcess.stdout?.on('data', (data) => {
         const version = data.toString().trim();
         if (version.startsWith('v') && version.split('v')[1] >= '20') {
-          envToolsConfig.node.enabled = true;
-          envToolsConfig.node.version = version;
+          envToolsConfig.node!.enabled = true;
+          envToolsConfig.node!.version = version;
         } else {
-          envToolsConfig.node.enabled = false;
-          envToolsConfig.node.version = undefined;
-          envToolsConfig.node.errorMsg = `node 环境检查失败，版本号: ${version}`;
+          envToolsConfig.node!.enabled = false;
+          envToolsConfig.node!.version = undefined;
+          envToolsConfig.node!.errorMsg = `node 环境检查失败，版本号: ${version}`;
         }
       });
       childProcess.once('error', error => {
-        envToolsConfig.node.enabled = false;
-        envToolsConfig.node.version = undefined;
-        envToolsConfig.node.errorMsg = `node 环境检查失败，错误: ${error.message}`;
+        envToolsConfig.node!.enabled = false;
+        envToolsConfig.node!.version = undefined;
+        envToolsConfig.node!.errorMsg = `node 环境检查失败，错误: ${error.message}`;
         resolve();
       });
       childProcess.once('close', (code) => {
         if (code !== 0) {
-          envToolsConfig.node.enabled = false;
-          envToolsConfig.node.version = undefined;
-          envToolsConfig.node.errorMsg = `node 环境检查失败，退出码: ${code ?? 'unknown'}`;
+          envToolsConfig.node!.enabled = false;
+          envToolsConfig.node!.version = undefined;
+          envToolsConfig.node!.errorMsg = `node 环境检查失败，退出码: ${code ?? 'unknown'}`;
         }
         resolve();
       });

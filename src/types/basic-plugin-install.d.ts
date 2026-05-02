@@ -21,5 +21,5 @@ declare namespace Flows {
     };
   }
 
-  type EnvCheckMap = Record<EnvToolKey, EnvCheckItem>;
+  type EnvCheckMap = Partial<Record<EnvToolKey, EnvCheckItem>>;
 }

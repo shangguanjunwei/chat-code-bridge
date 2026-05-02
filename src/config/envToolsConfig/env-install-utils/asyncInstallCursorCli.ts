@@ -23,9 +23,9 @@ const asyncInstallCursorCli = {
         process.stdout.write(data);
       });
       childProcess.once('error', error => {
-        envToolsConfig['cursor-cli'].enabled = false;
-        envToolsConfig['cursor-cli'].version = undefined;
-        envToolsConfig['cursor-cli'].errorMsg = `Cursor CLI 安装失败，错误: ${error.message}`;
+        envToolsConfig['cursor-cli']!.enabled = false;
+        envToolsConfig['cursor-cli']!.version = undefined;
+        envToolsConfig['cursor-cli']!.errorMsg = `Cursor CLI 安装失败，错误: ${error.message}`;
         resolve();
       });
       childProcess.once('close', async (code) => {
@@ -33,9 +33,9 @@ const asyncInstallCursorCli = {
           await asyncCheckCursorCli.asyncFn();
           resolve();
         } else {
-          envToolsConfig['cursor-cli'].enabled = false;
-          envToolsConfig['cursor-cli'].version = undefined;
-          envToolsConfig['cursor-cli'].errorMsg = `Cursor CLI 安装失败，退出码: ${code ?? 'unknown'}`;
+          envToolsConfig['cursor-cli']!.enabled = false;
+          envToolsConfig['cursor-cli']!.version = undefined;
+          envToolsConfig['cursor-cli']!.errorMsg = `Cursor CLI 安装失败，退出码: ${code ?? 'unknown'}`;
           resolve();
         }
       });
