@@ -41,7 +41,7 @@ const envToolsConfig: Flows.EnvCheckMap = {
     enabled: false,
     version: undefined,
     errorMsg: '',
-    installDocPath: 'https://www.anthropic.com/claude/docs/cli/installation',
+    installDocPath: 'https://code.claude.com/docs/zh-CN/quickstart#homebrew',
     asyncEnvCheckConfig: asyncCheckClaudeCli,
     asyncInstallConfig: asyncInstallClaudeCli,
     group: "ToolEnv",

@@ -1,6 +1,6 @@
 import { startSpawnCommand } from '@/utils/spawnCommand';
 import envToolsConfig from '@/config/envToolsConfig';
-import asyncCheckNode from '../env-check-utils/asyncCheckNode';
+import asyncCheckNode from '@/config/envToolsConfig/env-check-utils/asyncCheckNode';
 
 const asyncInstallNvm: () => Promise<boolean> = () => {
   return new Promise<boolean>(async (resolve) => {
@@ -8,7 +8,7 @@ const asyncInstallNvm: () => Promise<boolean> = () => {
       return new Promise<boolean>((resolve1) => {
         const childProcess = startSpawnCommand(process.env.SHELL || '/bin/zsh', ['-lc', 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash'], { stdio: 'pipe' });
         childProcess.stdout?.on('data', (data) => {
-          console.log('data', data.toString());
+          console.log(data.toString());
         });
         childProcess.once('error', error => {
           resolve1(false);
@@ -66,7 +66,7 @@ const asyncInstallNodeFn: () => Promise<boolean> = async () => {
     // 安装 node
     const childProcess = startSpawnCommand(process.env.SHELL || '/bin/zsh', ['-lc', 'nvm install --lts']);
     childProcess.stdout?.on('data', (data) => {
-      console.log('data', data.toString());
+      console.log(data.toString());
     });
     childProcess.once('error', error => {
       envToolsConfig['node']!.enabled = false;

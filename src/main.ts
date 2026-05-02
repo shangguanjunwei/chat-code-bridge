@@ -71,7 +71,7 @@ async function main(): Promise<void> {
     }
   }
 
-  console.log('11111111111', envToolsConfig);
+  // console.log('11111111111', envToolsConfig);
   return;
 
   // 推荐安装的工具
