@@ -32,15 +32,12 @@ async function main(): Promise<void> {
   }
 
   // 必须安装的工具
-  const basicEnvUninstalledTools = toolsClassByGroup.BasicEnv.filter(item => uninstalledTools.find(tool => tool.label === item.label));
-  if (basicEnvUninstalledTools.length > 0) {
-    const result = await askYesNoBySpawn(`${basicEnvUninstalledTools.map(item => item.label).join(', ')}为必须安装的工具，是否继续？`);
-    if (!result) return;
-    await runSequentialAsyncTasks(basicEnvUninstalledTools.map(item => item.value.asyncInstallConfig));
-  }
-
-  console.log('11111111111', envToolsConfig);
-  return;
+  // const basicEnvUninstalledTools = toolsClassByGroup.BasicEnv.filter(item => uninstalledTools.find(tool => tool.label === item.label));
+  // if (basicEnvUninstalledTools.length > 0) {
+  //   const result = await askYesNoBySpawn(`${basicEnvUninstalledTools.map(item => item.label).join(', ')}为必须安装的工具，是否继续？`);
+  //   if (!result) return;
+  //   await runSequentialAsyncTasks(basicEnvUninstalledTools.map(item => item.value.asyncInstallConfig));
+  // }
 
   // 必须安装的工具（最少安装其中一个）
   const toolEnvUninstalledTools = toolsClassByGroup.ToolEnv.filter(item => uninstalledTools.find(tool => tool.label === item.label));
@@ -73,6 +70,9 @@ async function main(): Promise<void> {
       }
     }
   }
+
+  console.log('11111111111', envToolsConfig);
+  return;
 
   // 推荐安装的工具
   const recommendedEnvUninstalledTools = toolsClassByGroup.RecommendedEnv.filter(item => uninstalledTools.find(tool => tool.label === item.label));

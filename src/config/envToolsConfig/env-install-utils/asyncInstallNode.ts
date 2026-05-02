@@ -61,9 +61,36 @@ const asyncCheckNvm: () => Promise<boolean> = () => {
   });
 }
 
+const asyncInstallNodeFn: () => Promise<boolean> = async () => {
+  return new Promise<boolean>(async (resolve) => {
+    // 安装 node
+    const childProcess = startSpawnCommand(process.env.SHELL || '/bin/zsh', ['-lc', 'nvm install --lts']);
+    childProcess.stdout?.on('data', (data) => {
+      console.log('data', data.toString());
+    });
+    childProcess.once('error', error => {
+      envToolsConfig['node']!.enabled = false;
+      envToolsConfig['node']!.version = undefined;
+      envToolsConfig['node']!.errorMsg = `Node.js 安装失败，错误: ${error.message}`;
+      resolve(false);
+    });
+    childProcess.once('close', async (code) => {
+      if (code === 0) {
+        await asyncCheckNode.asyncFn();
+        resolve(true);
+      } else {
+        envToolsConfig['node']!.enabled = false;
+        envToolsConfig['node']!.version = undefined;
+        envToolsConfig['node']!.errorMsg = `Node.js 安装失败，退出码: ${code ?? 'unknown'}`;
+        resolve(false);
+      }
+    });
+  });
+}
+
 const asyncInstallNode: SequentialTask.SequentialTaskItem = {
-  prefix: '安装Node.js',
-  suffix: '安装完成',
+  prefix: '安装 Node.js',
+  suffix: '安装完成 Node.js',
   asyncFn: async () => {
     return new Promise<void>(async (resolve) => {
       // 检查 nvm 是否安装
@@ -71,27 +98,8 @@ const asyncInstallNode: SequentialTask.SequentialTaskItem = {
       if (!isNvmInstalled) isNvmInstalled = await asyncInstallNvm();
       if (!isNvmInstalled) resolve();
       // 安装 node
-      const childProcess = startSpawnCommand(process.env.SHELL || '/bin/zsh', ['-lc', 'nvm install --lts']);
-      childProcess.stdout?.on('data', (data) => {
-        console.log('data', data.toString());
-      });
-      childProcess.once('error', error => {
-        envToolsConfig['node']!.enabled = false;
-        envToolsConfig['node']!.version = undefined;
-        envToolsConfig['node']!.errorMsg = `Node.js 安装失败，错误: ${error.message}`;
-        resolve();
-      });
-      childProcess.once('close', async (code) => {
-        if (code === 0) {
-          await asyncCheckNode.asyncFn();
-          resolve();
-        } else {
-          envToolsConfig['node']!.enabled = false;
-          envToolsConfig['node']!.version = undefined;
-          envToolsConfig['node']!.errorMsg = `Node.js 安装失败，退出码: ${code ?? 'unknown'}`;
-          resolve();
-        }
-      });
+      await asyncInstallNodeFn();
+      resolve();
     });
   }
 }
