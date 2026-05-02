@@ -40,39 +40,37 @@ async function main(): Promise<void> {
   // }
 
   // 必须安装的工具（最少安装其中一个）
-  const toolEnvUninstalledTools = toolsClassByGroup.ToolEnv.filter(item => uninstalledTools.find(tool => tool.label === item.label));
-  if (toolEnvUninstalledTools.length > 0) {
-    if (toolEnvUninstalledTools.length === 1) {
-      const result2 = await askYesNoBySpawn(`${toolEnvUninstalledTools.map(item => item.label).join(', ')}为推荐安装的工具，是否继续？`);
-      if (result2) {
-        await runSequentialAsyncTasks(toolEnvUninstalledTools.map(item => item.value.asyncInstallConfig));
-      }
-    } else if (toolEnvUninstalledTools.length === toolsClassByGroup.ToolEnv.length) {
-      const result3 = await askYesNoBySpawn(`${toolEnvUninstalledTools.map(item => item.label).join(', ')}为必须安装的工具（最少安装其中一个），是否继续？`);
-      if (!result3) return;
-      let choosedTool: { label: string; value: Flows.EnvCheckItem }[] = [];
-      const fn = async () => {
-        choosedTool = await multiSelectAction(toolEnvUninstalledTools, '请选择需要安装的工具（最少安装其中一个）');
-        if (choosedTool.length === 0) await fn();
-      }
-      await fn();
-      await runSequentialAsyncTasks(choosedTool.map(item => item.value.asyncInstallConfig));
-    } else {
-      const result4 = await askYesNoBySpawn(`${toolEnvUninstalledTools.map(item => item.label).join(', ')}为推荐安装的工具，是否继续？`);
-      if (result4) {
-        let choosedTool: { label: string; value: Flows.EnvCheckItem }[] = [];
-        const fn = async () => {
-          choosedTool = await multiSelectAction(toolEnvUninstalledTools, '请选择需要安装的工具');
-          if (choosedTool.length === 0) await fn();
-        }
-        await fn();
-        await runSequentialAsyncTasks(choosedTool.map(item => item.value.asyncInstallConfig));
-      }
-    }
-  }
+  // const toolEnvUninstalledTools = toolsClassByGroup.ToolEnv.filter(item => uninstalledTools.find(tool => tool.label === item.label));
+  // if (toolEnvUninstalledTools.length > 0) {
+  //   if (toolEnvUninstalledTools.length === 1) {
+  //     const result2 = await askYesNoBySpawn(`${toolEnvUninstalledTools.map(item => item.label).join(', ')}为推荐安装的工具，是否继续？`);
+  //     if (result2) {
+  //       await runSequentialAsyncTasks(toolEnvUninstalledTools.map(item => item.value.asyncInstallConfig));
+  //     }
+  //   } else if (toolEnvUninstalledTools.length === toolsClassByGroup.ToolEnv.length) {
+  //     const result3 = await askYesNoBySpawn(`${toolEnvUninstalledTools.map(item => item.label).join(', ')}为必须安装的工具（最少安装其中一个），是否继续？`);
+  //     if (!result3) return;
+  //     let choosedTool: { label: string; value: Flows.EnvCheckItem }[] = [];
+  //     const fn = async () => {
+  //       choosedTool = await multiSelectAction(toolEnvUninstalledTools, '请选择需要安装的工具（最少安装其中一个）');
+  //       if (choosedTool.length === 0) await fn();
+  //     }
+  //     await fn();
+  //     await runSequentialAsyncTasks(choosedTool.map(item => item.value.asyncInstallConfig));
+  //   } else {
+  //     const result4 = await askYesNoBySpawn(`${toolEnvUninstalledTools.map(item => item.label).join(', ')}为推荐安装的工具，是否继续？`);
+  //     if (result4) {
+  //       let choosedTool: { label: string; value: Flows.EnvCheckItem }[] = [];
+  //       const fn = async () => {
+  //         choosedTool = await multiSelectAction(toolEnvUninstalledTools, '请选择需要安装的工具');
+  //         if (choosedTool.length === 0) await fn();
+  //       }
+  //       await fn();
+  //       await runSequentialAsyncTasks(choosedTool.map(item => item.value.asyncInstallConfig));
+  //     }
+  //   }
+  // }
 
-  // console.log('11111111111', envToolsConfig);
-  return;
 
   // 推荐安装的工具
   const recommendedEnvUninstalledTools = toolsClassByGroup.RecommendedEnv.filter(item => uninstalledTools.find(tool => tool.label === item.label));
