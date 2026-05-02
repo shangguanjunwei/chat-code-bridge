@@ -1,5 +1,5 @@
 declare namespace Flows {
-  type EnvToolKey = 'node' | '@larksuite/cli' | 'cursor-cli' | 'claude-cli' | 'codex-cli';
+  type EnvToolKey = 'node' | '@larksuite/cli' | 'cursor-cli' | 'claude-cli' | 'codex-cli' | 'nvm';
 
   type EnvToolGroup = 'BasicEnv' | 'ToolEnv' | 'RecommendedEnv';
 

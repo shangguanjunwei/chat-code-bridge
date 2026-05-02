@@ -23,7 +23,7 @@ async function main(): Promise<void> {
 
   const uninstalledTools: { label: string; value: Flows.EnvCheckItem }[] = [];
   for (const [key, value] of Object.entries(envCheckResult)) {
-    if (!value.enabled) {
+    if (value.enabled) {
       uninstalledTools.push({
         label: key,
         value,
@@ -38,6 +38,9 @@ async function main(): Promise<void> {
     if (!result) return;
     await runSequentialAsyncTasks(basicEnvUninstalledTools.map(item => item.value.asyncInstallConfig));
   }
+
+  console.log('11111111111', envToolsConfig);
+  return;
 
   // 必须安装的工具（最少安装其中一个）
   const toolEnvUninstalledTools = toolsClassByGroup.ToolEnv.filter(item => uninstalledTools.find(tool => tool.label === item.label));

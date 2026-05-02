@@ -9,7 +9,7 @@ const asyncCheckNode: SequentialTask.SequentialTaskItem = {
       const childProcess = startSpawnCommand('node', ['-v'], { stdio: 'pipe' });
       childProcess.stdout?.on('data', (data) => {
         const version = data.toString().trim();
-        if (version.startsWith('v') && version.split('v')[1] >= '20') {
+        if (version.startsWith('v') && version.split('v')[1] >= '22') {
           envToolsConfig.node!.enabled = true;
           envToolsConfig.node!.version = version;
         } else {
