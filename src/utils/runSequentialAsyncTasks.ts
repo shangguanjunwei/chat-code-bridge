@@ -19,8 +19,6 @@ const getErrorMessage = (error: unknown): string => {
 export async function runSequentialAsyncTasks(
   tasks: SequentialTask.SequentialTaskItem[]
 ): Promise<void> {
-  write(`${TerminalColor.White}开始执行...\n\n`);
-
   for (let index = 0; index < tasks.length; index += 1) {
     const task = tasks[index];
     const taskNo = index + 1;

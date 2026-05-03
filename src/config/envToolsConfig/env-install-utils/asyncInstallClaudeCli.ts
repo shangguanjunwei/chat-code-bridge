@@ -1,4 +1,4 @@
-import { startSpawnCommand } from '@/utils/spawnCommand';
+import startSpawnCommand from '@/utils/spawnCommand';
 import envToolsConfig from '@/config/envToolsConfig';
 import asyncCheckClaudeCli from '@/config/envToolsConfig/env-check-utils/asyncCheckClaudeCli';
 

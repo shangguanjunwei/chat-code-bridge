@@ -1,4 +1,4 @@
-import { startSpawnCommand } from '@/utils/spawnCommand';
+import startSpawnCommand from '@/utils/spawnCommand';
 import envToolsConfig from '@/config/envToolsConfig';
 import asyncCheckLarkCli from '@/config/envToolsConfig/env-check-utils/asyncCheckLarkCli';
 

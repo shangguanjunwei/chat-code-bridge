@@ -1,4 +1,4 @@
-import { startSpawnCommand } from '@/utils/spawnCommand';
+import startSpawnCommand from '@/utils/spawnCommand';
 import envToolsConfig from '@/config/envToolsConfig';
 const asyncCheckCursorCli: SequentialTask.SequentialTaskItem = {
   prefix: `检查 cursor-cli 是否安装`,

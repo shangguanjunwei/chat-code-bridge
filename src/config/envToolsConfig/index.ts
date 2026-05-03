@@ -1,13 +1,13 @@
-import asyncCheckNode from './env-check-utils/asyncCheckNode';
-import asyncCheckLarkCli from './env-check-utils/asyncCheckLarkCli';
-import asyncCheckCursorCli from './env-check-utils/asyncCheckCursorCli';
-import asyncCheckClaudeCli from './env-check-utils/asyncCheckClaudeCli';
-import asyncCheckCodexCli from './env-check-utils/asyncCheckCodexCli';
-import asyncInstallNode from './env-install-utils/asyncInstallNode';
-import asyncInstallLarkCli from './env-install-utils/asyncInstallLarkCli';
-import asyncInstallCursorCli from './env-install-utils/asyncInstallCursorCli';
-import asyncInstallClaudeCli from './env-install-utils/asyncInstallClaudeCli';
-import asyncInstallCodexCli from './env-install-utils/asyncInstallCodexCli';
+import asyncCheckNode from '@/config/envToolsConfig/env-check-utils/asyncCheckNode';
+import asyncCheckLarkCli from '@/config/envToolsConfig/env-check-utils/asyncCheckLarkCli';
+import asyncCheckCursorCli from '@/config/envToolsConfig/env-check-utils/asyncCheckCursorCli';
+import asyncCheckClaudeCli from '@/config/envToolsConfig/env-check-utils/asyncCheckClaudeCli';
+import asyncCheckCodexCli from '@/config/envToolsConfig/env-check-utils/asyncCheckCodexCli';
+import asyncInstallNode from '@/config/envToolsConfig/env-install-utils/asyncInstallNode';
+import asyncInstallLarkCli from '@/config/envToolsConfig/env-install-utils/asyncInstallLarkCli';
+import asyncInstallCursorCli from '@/config/envToolsConfig/env-install-utils/asyncInstallCursorCli';
+import asyncInstallClaudeCli from '@/config/envToolsConfig/env-install-utils/asyncInstallClaudeCli';
+import asyncInstallCodexCli from '@/config/envToolsConfig/env-install-utils/asyncInstallCodexCli';
 
 const envToolsConfig: Flows.EnvCheckMap = {
   node: {

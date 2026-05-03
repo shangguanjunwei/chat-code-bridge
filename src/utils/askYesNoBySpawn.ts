@@ -1,7 +1,7 @@
 import readlinePromises from 'node:readline/promises';
 import { stdin, stdout } from 'node:process';
 
-export async function askYesNoBySpawn(question: string): Promise<boolean> {
+const askYesNoBySpawn = async (question: string): Promise<boolean> => {
   const rl = readlinePromises.createInterface({ input: stdin, output: stdout });
   try {
     while (true) {

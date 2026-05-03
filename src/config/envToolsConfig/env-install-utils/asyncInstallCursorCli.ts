@@ -1,6 +1,6 @@
-import { startSpawnCommand } from '@/utils/spawnCommand';
+import startSpawnCommand from '@/utils/spawnCommand';
 import envToolsConfig from '@/config/envToolsConfig';
-import asyncCheckCursorCli from '../env-check-utils/asyncCheckCursorCli';
+import asyncCheckCursorCli from '@/config/envToolsConfig/env-check-utils/asyncCheckCursorCli';
 
 const asyncInstallCursorCli = {
   prefix: '安装Cursor CLI',
